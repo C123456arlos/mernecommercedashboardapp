@@ -40,12 +40,12 @@
 
 
 
-import nodemailer from 'nodemailer'
+import Nodemailer from 'nodemailer'
 import { MailtrapTransport } from 'mailtrap'
 
 const TOKEN = process.env.MAILTRAP_API_KEY
-
-const transporter = nodemailer.createTransport(
+console.log(TOKEN)
+const transporter = Nodemailer.createTransport(
     MailtrapTransport({
         token: TOKEN,
     })
