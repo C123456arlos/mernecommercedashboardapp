@@ -45,7 +45,7 @@ import { MailtrapTransport } from 'mailtrap'
 
 const TOKEN = process.env.MAILTRAP_API_KEY
 
-const transporter = Nodemailer.createTransport(
+const transporter = nodemailer.createTransport(
     MailtrapTransport({
         token: TOKEN,
     })
