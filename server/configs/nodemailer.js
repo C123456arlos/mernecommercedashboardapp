@@ -159,16 +159,41 @@ const sender = {
     address: "hello@demomailtrap.co",
     name: "Mailtrap Test",
 }
-const sendEmail = async ({ to, subject, body }) => {
-    const response = transport
-        .sendMail({
-            from: sender,
 
-        })
-        .then(console.log, console.error)
+
+
+const sendEmail = async ({ to, subject, body }) => {
+    const response = await transport.sendMail({
+        from: sender,
+        to,
+        subject,
+        html: body
+    })
     return response
 }
+
+
+
 export default sendEmail
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -188,21 +213,16 @@ export default sendEmail
 // const sender = {
 //     address: "hello@demomailtrap.co",
 //     name: "Mailtrap Test",
-// };
-// const recipients = [
-//     "c95007346@gmail.com",
-// ];
-
-// const sendEmail = async () => {
+// }
+// const sendEmail = async ({ to, subject, body }) => {
 //     const response = transport
 //         .sendMail({
 //             from: sender,
-//             to: recipients,
-//             subject: "You are awesome!",
-//             text: "Congrats for sending test email with Mailtrap!",
-//             category: "Integration Test",
+
 //         })
 //         .then(console.log, console.error)
 //     return response
 // }
 // export default sendEmail
+
+
