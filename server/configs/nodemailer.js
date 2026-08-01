@@ -151,7 +151,7 @@ const TOKEN = process.env.MAILTRAP_API_KEY
 
 const transport = Nodemailer.createTransport(
     MailtrapTransport({
-        token: TOKEN,
+        token: 'a89e71a90ecdaf817da90a86fe2e2e0e',
     })
 );
 
