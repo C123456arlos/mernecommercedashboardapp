@@ -60,86 +60,149 @@
 //     return response
 // }
 // export default sendEmail
-import FormData from "form-data"; // form-data v4.0.1
-import Mailgun from "mailgun.js"; // mailgun.js v11.1.0
 
-const sendSimpleMessage = () => {
-    const mailgun = new Mailgun(FormData);
-    const mg = mailgun.client({
-        username: "api",
-        key: process.env.API_KEY || "API_KEY",
-        // When you have an EU-domain, you must specify the endpoint:
-        // url: "https://api.eu.mailgun.net"
-    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import Nodemailer from "nodemailer"
+import { MailtrapTransport } from "mailtrap"
+// const Nodemailer = require("nodemailer");
+// const { MailtrapTransport } = require("mailtrap");
+
+const TOKEN = process.env.MAILTRAP_API_KEY
+
+const transport = Nodemailer.createTransport(
+    MailtrapTransport({
+        token: TOKEN,
+    })
+);
+
+const sender = {
+    address: "hello@demomailtrap.co",
+    name: "Mailtrap Test",
 }
 const sendEmail = async ({ to, subject, body }) => {
-    const response = await sendSimpleMessage.sendMail({
-        from: process.env.SENDER_EMAIL,
-        to,
-        subject,
-        html: body
-    })
+    const response = transport
+        .sendMail({
+            from: sender,
+
+        })
+        .then(console.log, console.error)
     return response
 }
-export default sendSimpleMessage
+export default sendEmail
 
 
 
+// import Nodemailer from "nodemailer"
+// import { MailtrapTransport } from "mailtrap"
+// // const Nodemailer = require("nodemailer");
+// // const { MailtrapTransport } = require("mailtrap");
 
+// const TOKEN = process.env.MAILTRAP_API_KEY
 
-
-
-
-
-
-// import FormData from "form-data"; // form-data v4.0.1
-// import Mailgun from "mailgun.js"; // mailgun.js v11.1.0
-
-// async function sendSimpleMessage() {
-//     const mailgun = new Mailgun(FormData);
-//     const mg = mailgun.client({
-//         username: "api",
-//         key: process.env.API_KEY || "API_KEY",
-//         // When you have an EU-domain, you must specify the endpoint:
-//         // url: "https://api.eu.mailgun.net"
-//     });
-//     try {
-//         const data = await mg.messages.create("sandboxd334b10d3325498ea7885978c47ecc91.mailgun.org", {
-//             from: "Mailgun Sandbox <postmaster@sandboxd334b10d3325498ea7885978c47ecc91.mailgun.org>",
-//             to: ["Carlos Ayoroa <carlosesteban.ayoroamurillo@gmail.com>"],
-//             subject: "Hello Carlos Ayoroa",
-//             text: "Congratulations Carlos Ayoroa, you just sent an email with Mailgun! You are truly awesome!",
-//         });
-
-//         console.log(data); // logs response data
-//     } catch (error) {
-//         console.log(error); //logs any error
-//     }
-// }
-// export default sendSimpleMessage
-
-
-
-
-
-
-
-
+// const transport = Nodemailer.createTransport(
+//     MailtrapTransport({
+//         token: TOKEN,
+//     })
+// );
 
 // const sender = {
 //     address: "hello@demomailtrap.co",
 //     name: "Mailtrap Test",
 // };
 // const recipients = [
-//     "carlosesteban.ayoroamurillo@gmail.com",
+//     "c95007346@gmail.com",
 // ];
 
-// transport
-//     .sendMail({
-//         from: process.env.MAILTRAP_SENDER_EMAIL,
-//         to: recipients,
-//         subject: "You are awesome!",
-//         text: "Congrats for sending test email with Mailtrap!",
-//         category: "Integration Test",
-//     })
-//     .then(console.log, console.error);
+// const sendEmail = async () => {
+//     const response = transport
+//         .sendMail({
+//             from: sender,
+//             to: recipients,
+//             subject: "You are awesome!",
+//             text: "Congrats for sending test email with Mailtrap!",
+//             category: "Integration Test",
+//         })
+//         .then(console.log, console.error)
+//     return response
+// }
+// export default sendEmail

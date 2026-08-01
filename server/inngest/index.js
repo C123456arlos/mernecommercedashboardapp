@@ -86,7 +86,6 @@ const sendBookingConfirmationEmail = inngest.createFunction(
         <p>thanks for booking with us <br/> - cesteam</p>
         </div>`
         })
-        // await sendSimpleMessage()
     }
 )
 export const functions = [syncUserCreation,
