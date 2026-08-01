@@ -153,9 +153,9 @@ const sendNewShowNotifications = inngest.createFunction(
         const { movieTitle } = event.data
         const users = await User.find({})
         for (const user of users) {
-            const userEmail = 'c95007346@gmail.com'
-            // const userEmail = user.email
-            const userName = 'carlos null'
+            // const userEmail = 'c95007346@gmail.com'
+            const userEmail = user.email
+            const userName = user.name
             const subject = `new show added ${movieTitle}`
             const body = `<div>
             <h2>${userName}</h2>
@@ -166,7 +166,8 @@ const sendNewShowNotifications = inngest.createFunction(
             <p>Thanks <br/> cesteam team</p>
             </div>`
             await sendEmail({
-                to: 'c95007346@gmail.com', subject,
+                to: userEmail, subject,
+                // to: 'c95007346@gmail.com', subject,
                 body,
             })
         }
