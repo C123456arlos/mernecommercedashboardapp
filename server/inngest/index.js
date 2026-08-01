@@ -71,22 +71,22 @@ const sendBookingConfirmationEmail = inngest.createFunction(
             path: 'show',
             populate: { path: 'movie', model: 'Movie' }
         }).populate('user')
-        // await sendEmail({
-        // to: booking.user.email,
-        // subject: `payment confirmation ${booking.show.movie.title} booked`,
-        // body: `<div style='font-family:Arial'>
-        // <h2>hi ${booking.user.name}</h2>
-        // <p>your booking for ${booking.show.movie.title} is confirmed</p>
-        // <p> date:
-        // ${new Date(booking.show.showDateTime).toLocaleDateString('en-US', { timeZone: 'Europe/London' })}
-        // time:
-        // ${new Date(booking.show.showDateTime).toLocaleTimeString('en-US', { timeZone: 'Europe/London' })}
-        // </p>
-        // <p>enjoy the show</p>
-        // <p>thanks for booking with us <br/> - cesteam</p>
-        // </div>`
-        // })
-        await sendSimpleMessage()
+        await sendEmail({
+            to: booking.user.email,
+            subject: `payment confirmation ${booking.show.movie.title} booked`,
+            body: `<div style='font-family:Arial'>
+        <h2>hi ${booking.user.name}</h2>
+        <p>your booking for ${booking.show.movie.title} is confirmed</p>
+        <p> date:
+        ${new Date(booking.show.showDateTime).toLocaleDateString('en-US', { timeZone: 'Europe/London' })}
+        time:
+        ${new Date(booking.show.showDateTime).toLocaleTimeString('en-US', { timeZone: 'Europe/London' })}
+        </p>
+        <p>enjoy the show</p>
+        <p>thanks for booking with us <br/> - cesteam</p>
+        </div>`
+        })
+        // await sendSimpleMessage()
     }
 )
 export const functions = [syncUserCreation,
