@@ -1,7 +1,9 @@
 import stripe from 'stripe'
 import Booking from '../models/Bookings.js'
-import { inngest } from '../inngest/index.js'
+import { Purchase } from '../models/Purchase.js'
+// import { inngest } from '../inngest/index.js'
 export const stripeWebhooks = async (request, response) => {
+    console.log(request, 'request from stripewebhooks')
     const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
     const sig = request.headers['stripe-signature']
     let event
@@ -23,15 +25,36 @@ export const stripeWebhooks = async (request, response) => {
                     isPaid: true,
                     paymentLink: ''
                 })
-                await inngest.send({
-                    name: 'app/show.booked',
-                    data: { bookingId }
-                })
+                const purchaseData = await Purchase.findById('6aeb921f8d02cd3afbc7c76e')
+                purchaseData.status = 'completed'
+                await purchaseData.save()
+
+                // await inngest.send({
+                //     name: 'app/show.booked',
+                //     data: { bookingId }
+                // })
                 break;
             }
             default:
-                console.log('unahandled event type', event.type)
+                console.log('unhandled event type', event.type)
         }
+        //        case 'payment_intent.succeeded': {
+        //     const paymentIntent = event.data.object
+        //     const paymentIntentId = paymentIntent.id
+        //     const session = await stripeInstance.checkout.sessions.list({
+        //         payment_intent:paymentIntentId
+        //     })
+        //     const { purchaseId } = session.data[0].metadata
+        //     console.log('purchaseId', purchaseId)
+            // console.log('purchaseData', purchaseData)
+            // const userData = await User.findById(purchaseData.userId)
+            // const courseData = await Course.findById(purchaseData.courseId.toString())
+            // courseData.enrolledStudents.push(userData)
+            // await courseData.save()
+            // userData.enrolledCourses.push(courseData._id)
+            // await userData.save()
+        //     break;
+        // }
         response.json({
             received: true
         })
