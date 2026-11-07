@@ -98,7 +98,7 @@ export const stripeWebhooks = async (request, response) => {
     const sig = request.headers['stripe-signature']
     let event
     try {
-        event = stripeInstance.webhooks.constructEvent(payload, sig, 'whsec_ucl1DmzUgj7TFdcVy1TRIxLhFKKuRBbh')
+        event = stripeInstance.webhooks.constructEvent(payload, sig, 'whsec_NqQP0hfnCvOzNZO2b9BowWMZsbNf5N4B')
     } catch (error) {
         return response.status(400).send(`webhook error ${error.message}`)
     }
