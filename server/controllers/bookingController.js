@@ -43,6 +43,8 @@ export const createBooking = async (req, res) => {
             showData.occupiedSeats[seat] = userId
         })
         showData.markModified('occupiedSeats')
+        const bookingId = booking._id
+
         await showData.save()
         const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
         const line_items = [{
