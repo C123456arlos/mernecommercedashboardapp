@@ -31,8 +31,7 @@ export const addShow = async (req, res) => {
             ])
             const movieApiData = movieDetailsResponse.data
             const movieCreditsData = movieCreditsResponse.data
-            console.log(movieApiData)
-            console.log(movieCreditsData)
+        
             const movieDetails = {
                 _id: movieId,
                 title: movieApiData.title,
@@ -78,7 +77,8 @@ export const addShow = async (req, res) => {
 }
 export const getShows = async (req, res) => {
     try {
-        const shows = await Show.find({ showDateTime: { $gte: new Date() } }).populate('movie').sort({ showDateTime: 1 })
+        const shows = await Show.find().populate('movie').sort({ showDateTime: 1 })
+        // const shows = await Show.find({ showDateTime: { $gte: new Date() } }).populate('movie').sort({ showDateTime: 1 })
         const uniqueShows = new Set(shows.map(show => show.movie))
         res.json({ success: true, shows: Array.from(uniqueShows) })
     } catch (error) {

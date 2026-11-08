@@ -15,35 +15,37 @@ export const stripeWebhooks = async (request, response) => {
     }
     try {
         switch (event.type) {
-            // case 'payment_intent.succeeded': {
-            //     const paymentIntent = event.data.object
-            //     const sessionList = await stripeInstance.checkout.sessions.list({
-            //         payment_intent: paymentIntent.id
-            //     })
-            //     const session = sessionList.data[0]
-            //     const { bookingId } = session.metadata
-            //     await Booking.findByIdAndUpdate(bookingId, {
-            //         isPaid: true,
-            //         paymentLink: ''
-            //     })
+            case 'payment_intent.succeeded': {
+                const paymentIntent = event.data.object
+                const sessionList = await stripeInstance.checkout.sessions.list({
+                    payment_intent: paymentIntent.id
+                })
+                const session = sessionList.data[0]
+                const { bookingId } = session.metadata
+                await Booking.findByIdAndUpdate(bookingId, {
+                    isPaid: true,
+                    paymentLink: ''
+                })
 
-            //     // await inngest.send({
-            //     //     name: 'app/show.booked',
-            //     //     data: { bookingId }
-            //     // })
+                // await inngest.send({
+                //     name: 'app/show.booked',
+                //     data: { bookingId }
+                // })
+                break;
+            }
+            //  case 'payment_intent.succeeded': {
+            // const paymentIntent = event.data.object
+            // const paymentIntentId = paymentIntent.id
+            // const session = await stripeInstance.checkout.sessions.list({
+            //     payment_intent:paymentIntentId
+            // })
+            // const { purchaseId } = session.data[0].metadata
+            // const user = await User.findById('user_3Ln68t88mmnquW XSgn7daxHrt7K')
+            //     const purchasesData = await Purchase.findById(user._id)
+            //     purchasesData.status='completed'
+            //     console.log('purchaseId', purchaseId)
             //     break;
             // }
-             case 'payment_intent.succeeded': {
-            const paymentIntent = event.data.object
-            const paymentIntentId = paymentIntent.id
-            const session = await stripeInstance.checkout.sessions.list({
-                payment_intent:paymentIntentId
-            })
-            const { purchaseId } = session.data[0].metadata
-            const user = await User.findById('user_3Ln68t88mmnquW XSgn7daxHrt7K')
-                const purchasesData = await Purchase.findById(user._id)
-                purchasesData.status='completed'
-                console.log('purchaseId', purchaseId)
                 
                 // console.log('purchaseData', purchaseData)
             // const userData = await User.findById(purchaseData.userId)
@@ -52,8 +54,6 @@ export const stripeWebhooks = async (request, response) => {
             // await courseData.save()
             // userData.enrolledCourses.push(courseData._id)
             // await userData.save()
-            break;
-        }
             default:
                 console.log('unhandled event type', event.type)
         }
