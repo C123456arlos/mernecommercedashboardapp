@@ -321,10 +321,10 @@
 //     //             })
 //     //             const session = sessionList.data[0]
 //     //             const { bookingId } = session.metadata
-//     //             // await Booking.findByIdAndUpdate(bookingId, {
-//     //             //     isPaid: true,
-//     //             //     paymentLink: ''
-//     //             // })
+                // await Booking.findByIdAndUpdate(bookingId, {
+                //     isPaid: true,
+                //     paymentLink: ''
+                // })
 //                 // await Booking.findByIdAndUpdate('6aeba0b2a7fd83c0f1b1d394', {
 //                 //     isPaid: true,
 //                 //     paymentLink: ''
@@ -423,43 +423,74 @@
 
 
 
+// import stripe from 'stripe'
+// import Booking from "../models/Bookings.js";
+
+// const stripeSecret = new stripe(process.env.STRIPE_SECRET_KEY)
+// const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
+
+// export const stripeWebhooks = async (request, response) => {
+
+//     let event;
+//     if (endpointSecret) {
+//         const signature = request.headers['stripe-signature'];
+//         try {
+//             event = stripe.webhooks.constructEvent(
+//                 request.body,
+//                 signature,
+//                 'whsec_QibV8vJroeRScGnM6INgPUqUkJkrpExy'
+//             );
+//         } catch (err) {
+//             console.log(`Webhook signature verification failed.`, err.message);
+//             return response.sendStatus(400);
+//         }
+//         try {
+//             switch (event.type) {
+//                 case 'payment_intent.succeeded': {
+//                     const booking = Booking.findById('6af0d83ec9846140833e2209')
+//                     booking.isPaid=true
+//                     await booking.save()
+//                     break;
+//                 }
+//                 default:
+//             }
+//                 console.log(`Unhandled event type ${event.type}`);
+//         response.json({ received: true });
+//         } catch (error) {
+//                 console.error('webhook processing error', error)
+//         response.status(500).send('internal server error')
+//         }
+
+//     }
+// }
+
+
+
+
 import stripe from 'stripe'
-import Booking from "../models/Bookings.js";
-
-const stripeSecret = new stripe(process.env.STRIPE_SECRET_KEY)
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
-
+import Booking from '../models/Bookings.js'
 export const stripeWebhooks = async (request, response) => {
-
-    let event;
-    if (endpointSecret) {
-        const signature = request.headers['stripe-signature'];
-        try {
-            event = stripe.webhooks.constructEvent(
-                request.body,
-                signature,
-                'whsec_QibV8vJroeRScGnM6INgPUqUkJkrpExy'
-            );
-        } catch (err) {
-            console.log(`Webhook signature verification failed.`, err.message);
-            return response.sendStatus(400);
-        }
-        try {
-            switch (event.type) {
-                case 'payment_intent.succeeded': {
-                    const booking = Booking.findById('6af0d83ec9846140833e2209')
-                    booking.isPaid=true
-                    await booking.save()
-                    break;
-                }
-                default:
-            }
-                console.log(`Unhandled event type ${event.type}`);
-        response.json({ received: true });            
-        } catch (error) {
-                console.error('webhook processing error', error)
-        response.status(500).send('internal server error')
-        }
-
+    const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
+    const sig = request.headers['stripe-signature']
+    let event
+    try {
+        event = stripeInstance.webhooks.constructEvent(request.body, sig, 'whsec_QibV8vJroeRScGnM6INgPUqUkJkrpExy')
+    } catch (error) {
+        response.status(400).send(`webhook error ${error.message}`)
     }
+    if (event.type === 'payment_intent.succeeded') {
+        const paymentIntent = event.data.object
+        const paymentIntentId = paymentIntent.id
+        const session = await stripeInstance.checkout.sessions.list({
+            payment_intent: paymentIntentId
+        })
+        const { bookingId } = session.data[0].metadata
+                        await Booking.findByIdAndUpdate(bookingId, {
+                    isPaid: true,
+                    paymentLink: ''
+                })
+    } else {
+        console.log('unhandled event type', event.type)
+    }
+    response.json({ received: true })
 }
