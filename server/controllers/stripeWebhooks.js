@@ -85,24 +85,18 @@ export const stripeWebhooks = async (request, response) => {
                 const sessionList = await stripeInstance.checkout.sessions.list({
                     payment_intent: paymentIntent.id
                 })
-                // const session = sessionList.data[0]
-                // const { bookingId } = session.metadata
-               const bookingPaid=
-                 Booking.findByIdAndUpdate('6af0cc00a13b405de8c2e29d', {
+                const session = sessionList.data[0]
+                const { bookingId } = session.metadata
+      
+                await  Booking.findByIdAndUpdate('6af0d0bcc7a9f41cabd4e103', {
                     isPaid: true,
                     paymentLink: ''
                 })
-                await bookingPaid.save()
-                // await Booking.findByIdAndUpdate('6aeba0b2a7fd83c0f1b1d394', {
-                //     isPaid: true,
-                //     paymentLink: ''
-                // })
-
                 // await inngest.send({
                 //     name: 'app/show.booked',
                 //     data: { bookingId }
                 // })
-                break;
+                // break;
             }
             default:
                 console.log('unhandled event type', event.type)
