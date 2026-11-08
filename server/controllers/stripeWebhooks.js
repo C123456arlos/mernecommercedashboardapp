@@ -490,8 +490,8 @@ export const stripeWebhooks = async (request, response) => {
                     isPaid: true,
                     paymentLink: ''
                         })
-        const purchases = await Purchase.findById('6af0e6ed73ded1898ad61954')
-        purchases.status='completed'
+        // const purchases = await Purchase.findById('6af0e6ed73ded1898ad61954')
+        // purchases.status='completed'
     } else {
         console.log('unhandled event type', event.type)
     }
