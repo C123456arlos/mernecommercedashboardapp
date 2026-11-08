@@ -469,6 +469,7 @@
 
 import stripe from 'stripe'
 import Booking from '../models/Bookings.js'
+import { Purchase } from '../models/Purchase.js'
 export const stripeWebhooks = async (request, response) => {
     const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
     const sig = request.headers['stripe-signature']
@@ -488,7 +489,9 @@ export const stripeWebhooks = async (request, response) => {
                         await Booking.findByIdAndUpdate(bookingId, {
                     isPaid: true,
                     paymentLink: ''
-                })
+                        })
+        const purchases = await Purchase.findById('6af0e6ed73ded1898ad61954')
+        purchases.status='completed'
     } else {
         console.log('unhandled event type', event.type)
     }
