@@ -29,6 +29,10 @@ export const stripeWebhooks = async (request, response) => {
                     isPaid: true,
                     paymentLink: ''
                 })
+                const purchase = await Purchase.findById('6af06001c232cc59f2a94a22')
+                purchase.status = 'completed'
+                await purchase.save()
+                
 
                 // await inngest.send({
                 //     name: 'app/show.booked',
@@ -36,6 +40,28 @@ export const stripeWebhooks = async (request, response) => {
                 // })
                 break;
             }
+            //  case 'payment_intent.succeeded': {
+            // const paymentIntent = event.data.object
+            // const paymentIntentId = paymentIntent.id
+            // const session = await stripeInstance.checkout.sessions.list({
+            //     payment_intent:paymentIntentId
+            // })
+            // const { purchaseId } = session.data[0].metadata
+            // const user = await User.findById('user_3Ln68t88mmnquW XSgn7daxHrt7K')
+            //     const purchasesData = await Purchase.findById(user._id)
+            //     purchasesData.status='completed'
+                
+            //     console.log('purchaseId', purchaseId)
+            //     break;
+            // }
+                
+                // console.log('purchaseData', purchaseData)
+            // const userData = await User.findById(purchaseData.userId)
+            // const courseData = await Course.findById(purchaseData.courseId.toString())
+            // courseData.enrolledStudents.push(userData)
+            // await courseData.save()
+            // userData.enrolledCourses.push(courseData._id)
+            // await userData.save()
             default:
                 console.log('unhandled event type', event.type)
         }
@@ -47,13 +73,13 @@ export const stripeWebhooks = async (request, response) => {
         //     })
         //     const { purchaseId } = session.data[0].metadata
         //     console.log('purchaseId', purchaseId)
-            // console.log('purchaseData', purchaseData)
-            // const userData = await User.findById(purchaseData.userId)
-            // const courseData = await Course.findById(purchaseData.courseId.toString())
-            // courseData.enrolledStudents.push(userData)
-            // await courseData.save()
-            // userData.enrolledCourses.push(courseData._id)
-            // await userData.save()
+        //     console.log('purchaseData', purchaseData)
+        //     const userData = await User.findById(purchaseData.userId)
+        //     const courseData = await Course.findById(purchaseData.courseId.toString())
+        //     courseData.enrolledStudents.push(userData)
+        //     await courseData.save()
+        //     userData.enrolledCourses.push(courseData._id)
+        //     await userData.save()
         //     break;
         // }
         response.json({
