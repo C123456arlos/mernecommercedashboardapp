@@ -3,6 +3,7 @@ import Booking from "../models/Bookings.js"
 import Show from "../models/Show.js"
 import stripe from 'stripe'
 import User from "../models/User.js"
+import { Purchase } from "../models/Purchase.js"
 
 
 const checkSeatsAvailability = async (showId, selectedSeats) => {
@@ -26,12 +27,12 @@ export const createBooking = async (req, res) => {
         if (!isAvailable) {
             return Response.json({ success: false, message: 'selected seats are not available' })
         }
+        // console.log('userId', userId)
         const showData = await Show.findById(showId).populate('movie')
-        const user = await User.findById('user_3Ln68t88mmnquW XSgn7daxHrt7K')
-        console.log('user', user)
-        const purchasesData = await Purchase.findById(user._id)
-        purchasesData.status = 'completed'
-        console.log('purchasedata', purchasesData)
+        //        const purchase = await Purchase.findById('6af06001c232cc59f2a94a22')
+        // purchase.status = 'completed'
+        // console.log('pruchase', purchase)
+        // await purchase.save()
         const booking = await Booking.create({
             user: userId,
             show: showId,

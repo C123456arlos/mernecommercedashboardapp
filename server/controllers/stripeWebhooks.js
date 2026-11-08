@@ -1,7 +1,6 @@
 import stripe from 'stripe'
 import Booking from '../models/Bookings.js'
 import { Purchase } from '../models/Purchase.js'
-import User from '../models/User.js'
 
 export const stripeWebhooks = async (request, response) => {
     console.log(request, 'request from stripewebhooks')
@@ -26,10 +25,9 @@ export const stripeWebhooks = async (request, response) => {
                     isPaid: true,
                     paymentLink: ''
                 })
-                // const user = await User.findById('user_3Ln68t88mmnquW XSgn7daxHrt7K')
-                // const purchasesData = await Purchase.findById(user._id)
-                // purchasesData.status = 'completed'
-                // await purchasesData.save()
+                const purchase = await Purchase.findById('6af06001c232cc59f2a94a22')
+                purchase.status = 'completed'
+                await purchase.save()
                 
 
                 // await inngest.send({
