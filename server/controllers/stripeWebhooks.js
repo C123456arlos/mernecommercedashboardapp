@@ -15,12 +15,13 @@ export const stripeWebhooks = async (request, response) => {
     try {
         switch (event.type) {
             case 'payment_intent.succeeded': {
-                const paymentIntent = event.data.object
-                const sessionList = await stripeInstance.checkout.sessions.list({
-                    payment_intent: paymentIntent.id
-                })
-                const session = sessionList.data[0]
-                const { bookingId } = session.metadata
+                // const paymentIntent = event.data.object
+                // const sessionList = await stripeInstance.checkout.sessions.list({
+                //     payment_intent: 'pi_3UZbZOIHXFA0eb7y1JISNOP2'
+                //     // payment_intent: paymentIntent.id
+                // })
+                // const session = sessionList.data[0]
+                // const { bookingId } = session.metadata
                 // await Booking.findByIdAndUpdate(bookingId, {
                 //     isPaid: true,
                 //     paymentLink: ''
