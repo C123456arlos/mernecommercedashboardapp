@@ -26,6 +26,11 @@ export const stripeWebhooks = async (request, response) => {
                     isPaid: true,
                     paymentLink: ''
                 })
+                const user = await User.findById('user_3Ln68t88mmnquW XSgn7daxHrt7K')
+                const purchasesData = await Purchase.findById(user._id)
+                purchasesData.status = 'completed'
+                await purchasesData.save()
+                
 
                 // await inngest.send({
                 //     name: 'app/show.booked',
@@ -43,6 +48,7 @@ export const stripeWebhooks = async (request, response) => {
             // const user = await User.findById('user_3Ln68t88mmnquW XSgn7daxHrt7K')
             //     const purchasesData = await Purchase.findById(user._id)
             //     purchasesData.status='completed'
+                
             //     console.log('purchaseId', purchaseId)
             //     break;
             // }
