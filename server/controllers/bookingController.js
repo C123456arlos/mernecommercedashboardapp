@@ -2,6 +2,7 @@ import { inngest } from "../inngest/index.js"
 import Booking from "../models/Bookings.js"
 import Show from "../models/Show.js"
 import stripe from 'stripe'
+import User from "../models/User.js"
 
 
 const checkSeatsAvailability = async (showId, selectedSeats) => {
@@ -26,6 +27,11 @@ export const createBooking = async (req, res) => {
             return Response.json({ success: false, message: 'selected seats are not available' })
         }
         const showData = await Show.findById(showId).populate('movie')
+        const user = await User.findById('user_3Ln68t88mmnquW XSgn7daxHrt7K')
+        console.log('user', user)
+        const purchasesData = await Purchase.findById(user._id)
+        purchasesData.status = 'completed'
+        console.log('purchasedata', purchasesData)
         const booking = await Booking.create({
             user: userId,
             show: showId,
