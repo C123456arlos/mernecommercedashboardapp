@@ -76,7 +76,7 @@ export const stripeWebhooks = async (request, response) => {
                                 const purchaseData = await Purchase.findById(purchaseId)
                     purchaseData.status = 'completed'
                     await purchaseData.save()
-                         const booking= await Booking.findByIdAndUpdate('6aeba0b2a7fd83c0f1b1d394', {
+                         const booking= await Booking.findByIdAndUpdate('6af0d347aed0ea81692c8527', {
                     isPaid: true,
                     paymentLink: ''
                          })
