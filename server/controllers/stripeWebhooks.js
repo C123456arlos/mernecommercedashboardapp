@@ -79,7 +79,7 @@ export const stripeWebhooks = async (request, response) => {
         return response.status(400).send(`webhook error ${error.message}`)
     }
 
-            if( 'payment_intent.succeeded') {
+            if( event.type==='payment_intent.succeeded') {
 
           await  Booking.findByIdAndUpdate('6af0d1c986e8e2bd0632b99b', {
                     isPaid: true,
