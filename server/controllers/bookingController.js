@@ -29,7 +29,7 @@ export const createBooking = async (req, res) => {
         }
         // console.log('userId', userId)
         const showData = await Show.findById(showId).populate('movie')
-         await        Booking.findByIdAndUpdate('6af0cc00a13b405de8c2e29d', {
+      await  Booking.findByIdAndUpdate('6af0d1c986e8e2bd0632b99b', {
                     isPaid: true,
                     paymentLink: ''
                 })
