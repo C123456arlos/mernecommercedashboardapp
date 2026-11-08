@@ -87,10 +87,12 @@ export const stripeWebhooks = async (request, response) => {
                 })
                 // const session = sessionList.data[0]
                 // const { bookingId } = session.metadata
-                await Booking.findByIdAndUpdate('6af0cc00a13b405de8c2e29d', {
+               const bookingPaid=
+                 Booking.findByIdAndUpdate('6af0cc00a13b405de8c2e29d', {
                     isPaid: true,
                     paymentLink: ''
                 })
+                await bookingPaid.save()
                 // await Booking.findByIdAndUpdate('6aeba0b2a7fd83c0f1b1d394', {
                 //     isPaid: true,
                 //     paymentLink: ''
