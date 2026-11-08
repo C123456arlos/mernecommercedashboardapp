@@ -15,32 +15,31 @@ export const stripeWebhooks = async (request, response) => {
     try {
         switch (event.type) {
             case 'payment_intent.succeeded': {
-                // const paymentIntent = event.data.object
-                // const sessionList = await stripeInstance.checkout.sessions.list({
-                //     payment_intent: 'pi_3UZbZOIHXFA0eb7y1JISNOP2'
-                //     // payment_intent: paymentIntent.id
-                // })
-                // const session = sessionList.data[0]
-                // const { bookingId } = session.metadata
-                // await Booking.findByIdAndUpdate(bookingId, {
-                //     isPaid: true,
-                //     paymentLink: ''
-                // })
-                await Booking.findByIdAndUpdate('6aeba0b2a7fd83c0f1b1d394', {
+                const paymentIntent = event.data.object
+                const sessionList = await stripeInstance.checkout.sessions.list({
+                    payment_intent: paymentIntent.id
+                })
+                const session = sessionList.data[0]
+                const { bookingId } = session.metadata
+                await Booking.findByIdAndUpdate(bookingId, {
                     isPaid: true,
                     paymentLink: ''
                 })
-                    const bookingData=  await  Booking.findByIdAndUpdate('6af0f3dffe8dfa8cfcb5ed15', {
-                                    isPaid: true,
-                                    paymentLink: ''
-                    })
+                // await Booking.findByIdAndUpdate('6aeba0b2a7fd83c0f1b1d394', {
+                //     isPaid: true,
+                //     paymentLink: ''
+                // })
+                //     const bookingData=  await  Booking.findByIdAndUpdate('6af0f3dffe8dfa8cfcb5ed15', {
+                //                     isPaid: true,
+                //                     paymentLink: ''
+                //     })
                         
-                        console.log('bookingdata', bookingData)
-                        await bookingData.save()
-                        const purchaseData = await Purchase.findById('6af0e6ed73ded1898ad61954')
-                        console.log('purchaseData', purchaseData)
-                        purchaseData.status = 'completed'
-                        await purchaseData.save()
+                //         console.log('bookingdata', bookingData)
+                //         await bookingData.save()
+                //         const purchaseData = await Purchase.findById('6af0e6ed73ded1898ad61954')
+                //         console.log('purchaseData', purchaseData)
+                //         purchaseData.status = 'completed'
+                //         await purchaseData.save()
 
                 // await inngest.send({
                 //     name: 'app/show.booked',
