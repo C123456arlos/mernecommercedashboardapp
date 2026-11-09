@@ -533,6 +533,8 @@
 
 import Booking from '../models/Bookings.js'
 
+import { Purchase } from '../models/Purchase.js'
+import User from '../models/User.js'
 
 export const stripeWebhooks = async (request, response) => {
  console.log(request, 'request from stripewebhooks')
@@ -606,17 +608,46 @@ export const stripeWebhooks = async (request, response) => {
                 payment_intent:paymentIntentId
             })
             const { purchaseId } = session.data[0].metadata
-     
-            break;
+            const user = await User.findById('user_3Ln68t88mmnquWXSgn7daxHrt7K')
+                const purchasesData = await Purchase.findById(user._id)
+                purchasesData.status='completed'
+                
+                console.log('purchaseId', purchaseId)
+                break;
+            }
+                
+            //     console.log('purchaseData', purchaseData)
+            // const userData = await User.findById(purchaseData.userId)
+            // const courseData = await Course.findById(purchaseData.courseId.toString())
+            // courseData.enrolledStudents.push(userData)
+            // await courseData.save()
+            // userData.enrolledCourses.push(courseData._id)
+            // await userData.save()
+            default:
+                console.log('unhandled event type', event.type)
         }
-        default:
-            console.log(`unhandled event type ${event.type}`)
-    }
+        //        case 'payment_intent.succeeded': {
+        //     const paymentIntent = event.data.object
+        //     const paymentIntentId = paymentIntent.id
+        //     const session = await stripeInstance.checkout.sessions.list({
+        //         payment_intent:paymentIntentId
+        //     })
+        //     const { purchaseId } = session.data[0].metadata
+        //     console.log('purchaseId', purchaseId)
+        //     console.log('purchaseData', purchaseData)
+        //     const userData = await User.findById(purchaseData.userId)
+        //     const courseData = await Course.findById(purchaseData.courseId.toString())
+        //     courseData.enrolledStudents.push(userData)
+        //     await courseData.save()
+        //     userData.enrolledCourses.push(courseData._id)
+        //     await userData.save()
+        //     break;
+        // }
         response.json({
             received: true
         })
     } catch (error) {
-        console.log('webhook processing error', error)
+        console.log('webhook processing error', err)
         response.status(500).send(error.message)
     }
 }
@@ -677,3 +708,4 @@ export const stripeWebhooks = async (request, response) => {
 //         console.log('stripe error', error)
 //         response.status(400).send(`webhook err ${error.message}`)
 //     }
+    
