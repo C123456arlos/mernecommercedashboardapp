@@ -575,9 +575,9 @@ export const stripeWebhooks = async (request, response) => {
                 payment_intent:paymentIntentId
             })
             const { purchaseId } = session.data[0].metadata
-            const purchaseData = await Purchase.findById(purchaseId)
-                purchaseData.status = 'completed'
-                await purchaseData.save()
+            // const purchaseData = await Purchase.findById(purchaseId)
+            //     purchaseData.status = 'completed'
+            //     await purchaseData.save()
                 
                 const courseData= await Course.findById(purchaseData.courseId)
                 courseData.enrolledStudents.push(courseData.userId)
