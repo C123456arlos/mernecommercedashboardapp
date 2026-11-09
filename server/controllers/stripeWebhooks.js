@@ -739,7 +739,11 @@ export const stripeWebhooks = async (request, response) => {
             const session = await stripeInstance.checkout.sessions.list({
                 payment_intent:paymentIntentId
             })
-            const { purchaseId } = session.data[0].metadata
+            const { bookingId, purchaseId } = session.data[0].metadata
+                              await Booking.findByIdAndUpdate(bookingId, {
+                        isPaid: true,
+                        paymentLink: ''
+                    }) 
             const purchaseData = await Purchase.findById(purchaseId)
                 purchaseData.status = 'completed'
                 await purchaseData.save()
