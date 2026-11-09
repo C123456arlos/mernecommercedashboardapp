@@ -551,59 +551,40 @@ export const stripeWebhooks = async (request, response) => {
     try {
 
             switch (event.type) {
+        //         case 'payment_intent.succeeded': {
+        //     const paymentIntent = event.data.object
+        //     const paymentIntentId = paymentIntent.id
+        //     const session = await stripeInstance.checkout.sessions.list({
+        //         payment_intent:paymentIntentId
+        //     })
+        //     const { bookingId } = session.data[0].metadata        
+        //                                await Booking.findByIdAndUpdate(bookingId, {
+        //                 isPaid: true,
+        //                 paymentLink: ''
+        //             }) 
+        //             await Purchase.findByIdAndDelete('6aeb921f8d02cd3afbc7c76e')
+        //             const purchaseData = await Purchase.findById('6aeb921f8d02cd3afbc7c76e')
+        //             purchaseData.status = 'completed'
+        //             await purchaseData.save()
+        //     break;
+        // }
                 case 'payment_intent.succeeded': {
             const paymentIntent = event.data.object
             const paymentIntentId = paymentIntent.id
             const session = await stripeInstance.checkout.sessions.list({
                 payment_intent:paymentIntentId
             })
-            const { bookingId } = session.data[0].metadata
-            
-                                       await Booking.findByIdAndUpdate(bookingId, {
-                        isPaid: true,
-                        paymentLink: ''
-                    }) 
-                    await Purchase.findByIdAndDelete('6aeb921f8d02cd3afbc7c76e')
-                    const purchaseData = await Purchase.findById('6aeb921f8d02cd3afbc7c76e')
-                    purchaseData.status = 'completed'
-                    await purchaseData.save()
+            const { purchaseId } = session.data[0].metadata
+            const purchaseData = await Purchase.findById(purchaseId)
+                purchaseData.status = 'completed'
+                await purchaseData.save()
                 
-
-                    
-                    
-            
-                    
-            
-                    
-            
-            
-                    
-                    // const purchaseData = await Purchase.findById(purchaseId)
-            //       purchaseData.status = 'completed'
-            //                   console.log(purchaseData)
-            //                   await purchaseData.save()
-            //       const courseDataId = purchaseData.courseId.toString()
-            //       console.log('coursedataid', courseDataId)
-            //       const courseData = await Course.findById(courseDataId)
-            //                   courseData.enrolledStudents.push(purchaseData.userId)
-            //                   await courseData.save()
-            //       console.log('courseData', courseData)
-            //       const userData = await User.findById(purchaseData.userId)
-            //       userData.enrolledCourses.push(purchaseData.courseId)
-            //                   console.log(userData) 
-            //                   await userData.save()
-          
-                    // console.log('purchaseId', purchaseId)
-            // const purchaseData = await Purchase.findById(purchaseId)
-            // console.log('purchaseData', purchaseData)
-            // const userData = await User.findById(purchaseData.userId)
-            // const courseData = await Course.findById(purchaseData.courseId.toString())
-            // courseData.enrolledStudents.push(userData)
-            // await courseData.save()
-            // userData.enrolledCourses.push(courseData._id)
-            // await userData.save()
-            // purchaseData.status = 'completed'
-            // await purchaseData.save()
+                const courseData= await Course.findById(purchaseData.courseId)
+                courseData.enrolledStudents.push(courseData.userId)
+                await courseData.save()
+                const userData = await User.findById(purchaseData.userId)
+                userData.enrolledCourses.push(courseData._id)
+            await userData.save()
             break;
         }
         case 'payment_intent.payment_failed': {
