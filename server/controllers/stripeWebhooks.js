@@ -14,44 +14,44 @@ export const stripeWebhooks = async (request, response) => {
     }
     try {
         switch (event.type) {
-            case 'payment_intent.succeeded': {
-                const paymentIntent = event.data.object
-                const sessionList = await stripeInstance.checkout.sessions.list({
-                    payment_intent: paymentIntent.id
-                })
-                const session = sessionList.data[0]
-                const { bookingId } = session.metadata
-                await Booking.findByIdAndUpdate(bookingId, {
-                    isPaid: true,
-                    paymentLink: ''
-                })
-                const purchase = await Purchase.findById('6af06001c232cc59f2a94a22')
-                purchase.status = 'completed'
-                await purchase.save()
+            // case 'payment_intent.succeeded': {
+            //     const paymentIntent = event.data.object
+            //     const sessionList = await stripeInstance.checkout.sessions.list({
+            //         payment_intent: paymentIntent.id
+            //     })
+            //     const session = sessionList.data[0]
+            //     const { bookingId } = session.metadata
+            //     await Booking.findByIdAndUpdate(bookingId, {
+            //         isPaid: true,
+            //         paymentLink: ''
+            //     })
+            //     const purchase = await Purchase.findById('6af06001c232cc59f2a94a22')
+            //     purchase.status = 'completed'
+            //     await purchase.save()
                 
 
-                // await inngest.send({
-                //     name: 'app/show.booked',
-                //     data: { bookingId }
-                // })
-                break;
-            }
-            //  case 'payment_intent.succeeded': {
-            // const paymentIntent = event.data.object
-            // const paymentIntentId = paymentIntent.id
-            // const session = await stripeInstance.checkout.sessions.list({
-            //     payment_intent:paymentIntentId
-            // })
-            // const { purchaseId } = session.data[0].metadata
-            // const user = await User.findById('user_3Ln68t88mmnquW XSgn7daxHrt7K')
-            //     const purchasesData = await Purchase.findById(user._id)
-            //     purchasesData.status='completed'
-                
-            //     console.log('purchaseId', purchaseId)
+            //     // await inngest.send({
+            //     //     name: 'app/show.booked',
+            //     //     data: { bookingId }
+            //     // })
             //     break;
             // }
+             case 'payment_intent.succeeded': {
+            const paymentIntent = event.data.object
+            const paymentIntentId = paymentIntent.id
+            const session = await stripeInstance.checkout.sessions.list({
+                payment_intent:paymentIntentId
+            })
+            const { purchaseId } = session.data[0].metadata
+            const user = await User.findById('user_3Ln68t88mmnquW XSgn7daxHrt7K')
+                const purchasesData = await Purchase.findById(user._id)
+                purchasesData.status='completed'
                 
-                // console.log('purchaseData', purchaseData)
+                console.log('purchaseId', purchaseId)
+                break;
+            }
+                
+            //     console.log('purchaseData', purchaseData)
             // const userData = await User.findById(purchaseData.userId)
             // const courseData = await Course.findById(purchaseData.courseId.toString())
             // courseData.enrolledStudents.push(userData)
