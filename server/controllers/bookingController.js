@@ -35,13 +35,14 @@ export const createBooking = async (req, res) => {
             amount: showData.showPrice * selectedSeats.length,
             bookedSeats: selectedSeats
         })
+
+        const bookingData = Booking.findOne()
+        console.log('bookingData', bookingData)
+
+
         selectedSeats.map((seat) => {
             showData.occupiedSeats[seat] = userId
         })
-        // const bookingData = await Movie.findOne()
-        // const bookingDataId = await Movie.findById(bookingData._id)
-        // bookingDataId.isPaid = true
-        // await bookingDataId.save()
         showData.markModified('occupiedSeats')
         await showData.save()
         const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
