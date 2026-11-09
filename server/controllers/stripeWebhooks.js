@@ -733,7 +733,7 @@ export const stripeWebhooks = async (request, response) => {
             const { bookingId, purchaseId } = session.data[0].metadata
              const bookingData = await Booking.find()
                     const bookingsDataId= bookingData[0] 
-        const bookingDataId = await Booking.findById(bookingsDataId._id)
+        const bookingDataId = await Booking.findById(bookingId)
         console.log('bookingDataId', bookingDataId)
         bookingDataId.isPaid = true
         await bookingDataId.save()

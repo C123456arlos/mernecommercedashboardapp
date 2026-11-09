@@ -36,7 +36,7 @@ export const createBooking = async (req, res) => {
             bookedSeats: selectedSeats
         })
 
-         
+         console.log(booking._id.toString())
 
 
         selectedSeats.map((seat) => {
