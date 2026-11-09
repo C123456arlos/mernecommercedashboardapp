@@ -480,13 +480,13 @@ export const stripeWebhooks = async (request, response) => {
         response.status(400).send(`webhook error ${error.message}`)
     }
     if (event.type === 'payment_intent.succeeded') {
-        await Purchase.findByIdAndDelete('6af1a44d5abef09aa48c07ba')
-        const paymentIntent = event.data.object
-        const paymentIntentId = paymentIntent.id
-        const session = await stripeInstance.checkout.sessions.list({
-            payment_intent: paymentIntentId
-        })
-        const { bookingId } = session.data[0].metadata
+        // const paymentIntent = event.data.object
+        // const paymentIntentId = paymentIntent.id
+        // const session = await stripeInstance.checkout.sessions.list({
+        //     payment_intent: paymentIntentId
+        // })
+        // const { bookingId } = session.data[0].metadata
+       await Purchase.findByIdAndDelete('6af1a44d5abef09aa48c07ba')
     } else {
         console.log('unhandled event type', event.type)
     }
