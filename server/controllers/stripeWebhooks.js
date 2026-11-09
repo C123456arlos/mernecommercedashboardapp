@@ -743,7 +743,10 @@ export const stripeWebhooks = async (request, response) => {
                               await Booking.findByIdAndUpdate(bookingId, {
                         isPaid: true,
                         paymentLink: ''
-                    }) 
+                              }) 
+            const bookings = await Booking.findById(bookingId)
+            bookings.amount = 2
+            await bookings.save()
             const purchaseData = await Purchase.findById(purchaseId)
                 purchaseData.amount = 2
                 await purchaseData.save()
