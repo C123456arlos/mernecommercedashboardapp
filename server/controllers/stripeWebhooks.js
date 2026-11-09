@@ -565,8 +565,10 @@ export const stripeWebhooks = async (request, response) => {
                     }) 
                     await Purchase.findByIdAndDelete('6aeb921f8d02cd3afbc7c76e')
                     const purchaseData = await Purchase.findById('6aeb921f8d02cd3afbc7c76e')
-                    purchaseData.status='completed'
-                    
+                    purchaseData.status = 'completed'
+                    await purchaseData.save()
+                
+
                     
                     
             
