@@ -531,6 +531,7 @@
 
 
 
+import stripe from 'stripe'
 import Booking from '../models/Bookings.js'
 
 import { Purchase } from '../models/Purchase.js'
