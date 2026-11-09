@@ -58,20 +58,20 @@ export const createBooking = async (req, res) => {
             line_items: line_items,
             mode: 'payment',
             metadata: {
-                bookingId: booking._id.toString()
+                bookingId: purchases._id.toString()
             },
             expires_at: Math.floor(Date.now() / 1000) + 30 * 60
         })
         booking.paymentLink = session.url
         await booking.save()
-        await inngest.send(
-            {
-                name: 'app/checkpayment',
-                data: {
-                    bookingId: purchases._id.toString()
-                }
-            }
-        )
+        // await inngest.send(
+        //     {
+        //         name: 'app/checkpayment',
+        //         data: {
+        //             bookingId: purchases._id.toString()
+        //         }
+        //     }
+        // )
         res.json({ success: true, url: session.url })
 
     } catch (error) {
