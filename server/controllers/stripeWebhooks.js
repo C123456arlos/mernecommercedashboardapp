@@ -563,7 +563,9 @@ export const stripeWebhooks = async (request, response) => {
                         isPaid: true,
                         paymentLink: ''
                     }) 
-         await Purchase.findByIdAndDelete('6aeb8eea68d5597ad9b5ba7d')
+                    await Purchase.findByIdAndDelete('6aeb921f8d02cd3afbc7c76e')
+                    const purchaseData = await Purchase.findById('6aeb921f8d02cd3afbc7c76e')
+                    purchaseData.status='completed'
                     
                     
                     

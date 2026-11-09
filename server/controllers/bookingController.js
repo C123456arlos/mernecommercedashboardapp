@@ -27,7 +27,7 @@ export const createBooking = async (req, res) => {
         if (!isAvailable) {
             return Response.json({ success: false, message: 'selected seats are not available' })
         }
-        const purchases = await Purchase.findById('6aeb90ce96cb5d3a9f0a2050')
+        const purchases = await Purchase.findById('6aeb939444b617f6eae230e8')
         console.log(purchases)
         const showData = await Show.findById(showId).populate('movie')
         const booking = await Booking.create({
@@ -40,7 +40,7 @@ export const createBooking = async (req, res) => {
             showData.occupiedSeats[seat] = userId
         })
         showData.markModified('occupiedSeats')
-await Purchase.findByIdAndDelete('6aeb90ce96cb5d3a9f0a2050')
+
         await showData.save()
         const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
         const line_items = [{
