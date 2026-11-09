@@ -735,9 +735,21 @@ export const stripeWebhooks = async (request, response) => {
                         // isPaid: true,
                         // paymentLink: ''
                         //       }) 
-            const bookings = await Booking.findById('6af211977c7b45903d42a1e6')
-            bookings.amount = 2
-            await bookings.save()
+            const bookings = 
+            {
+  _id: ObjectId('6af211977c7b45903d42a1e6'),
+  user: 'user_3HF9BjD2oFEN5a0oSF251JliFVY',
+  show: '6af2117c7c7b45903d42a1e5',
+  amount: NumberInt('1'),
+  bookedSeats: [
+    'A6'
+  ],
+  isPaid: false,
+  createdAt: ISODate('2026-11-09T18:31:51.894Z'),
+  updatedAt: ISODate('2026-11-09T18:31:51.894Z'),
+                __v: NumberInt('0')
+            }
+            bookings.isPaid=true
             // const purchaseData = await Purchase.findById(purchaseId)
             //     purchaseData.amount = 2
             //     await purchaseData.save()
