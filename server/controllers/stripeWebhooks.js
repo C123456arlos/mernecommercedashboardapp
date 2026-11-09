@@ -740,23 +740,23 @@ export const stripeWebhooks = async (request, response) => {
                 payment_intent:paymentIntentId
             })
             const { bookingId, purchaseId } = session.data[0].metadata
-                              await Booking.findByIdAndUpdate(bookingId, {
-                        isPaid: true,
-                        paymentLink: ''
-                              }) 
-            const bookings = await Booking.findById(bookingId)
+                        //       await Booking.findByIdAndUpdate(bookingId, {
+                        // isPaid: true,
+                        // paymentLink: ''
+                        //       }) 
+            const bookings = await Booking.findById('6af0e3b6c8db416ba03b185f')
             bookings.amount = 2
             await bookings.save()
-            const purchaseData = await Purchase.findById(purchaseId)
-                purchaseData.amount = 2
-                await purchaseData.save()
+            // const purchaseData = await Purchase.findById(purchaseId)
+            //     purchaseData.amount = 2
+            //     await purchaseData.save()
                 
-                const courseData= await Course.findById(purchaseData.courseId)
-                courseData.enrolledStudents.push(courseData.userId)
-                await courseData.save()
-                const userData = await User.findById(purchaseData.userId)
-                userData.enrolledCourses.push(courseData._id)
-            await userData.save()
+            //     const courseData= await Course.findById(purchaseData.courseId)
+            //     courseData.enrolledStudents.push(courseData.userId)
+            //     await courseData.save()
+            //     const userData = await User.findById(purchaseData.userId)
+            //     userData.enrolledCourses.push(courseData._id)
+            // await userData.save()
             break;
         }
         case 'payment_intent.payment_failed': {
