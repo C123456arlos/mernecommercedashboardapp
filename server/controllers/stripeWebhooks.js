@@ -470,11 +470,8 @@
 import stripe from 'stripe'
 import Booking from '../models/Bookings.js'
 import { Purchase } from '../models/Purchase.js'
-<<<<<<< HEAD
 import User from '../models/User.js'
 
-=======
->>>>>>> 0cf768bee51f26a5f69969727442ba3482a39a41
 export const stripeWebhooks = async (request, response) => {
     const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
     const sig = request.headers['stripe-signature']
@@ -484,7 +481,6 @@ export const stripeWebhooks = async (request, response) => {
     } catch (error) {
         response.status(400).send(`webhook error ${error.message}`)
     }
-<<<<<<< HEAD
     try {
         switch (event.type) {
             // case 'payment_intent.succeeded': {
@@ -557,19 +553,6 @@ export const stripeWebhooks = async (request, response) => {
     } catch (error) {
         console.log('webhook processing error', err)
         response.status(500).send(error.message)
-=======
-    if (event.type === 'payment_intent.succeeded') {
-        // const paymentIntent = event.data.object
-        // const paymentIntentId = paymentIntent.id
-        // const session = await stripeInstance.checkout.sessions.list({
-        //     payment_intent: paymentIntentId
-        // })
-        // const { bookingId } = session.data[0].metadata
-        const purchase = await Purchase.findByIdAndDelete('6af1a44d5abef09aa48c07ba')
-        purchase.status='completed'
-    } else {
-        console.log('unhandled event type', event.type)
->>>>>>> 0cf768bee51f26a5f69969727442ba3482a39a41
     }
     response.json({ received: true })
 }
