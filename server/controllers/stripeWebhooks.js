@@ -745,7 +745,7 @@ export const stripeWebhooks = async (request, response) => {
                         paymentLink: ''
                     }) 
             const purchaseData = await Purchase.findById(purchaseId)
-                purchaseData.amount = 1
+                purchaseData.amount = 2
                 await purchaseData.save()
                 
                 const courseData= await Course.findById(purchaseData.courseId)
