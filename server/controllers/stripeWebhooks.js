@@ -735,7 +735,7 @@ export const stripeWebhooks = async (request, response) => {
                         // isPaid: true,
                         // paymentLink: ''
                         //       }) 
-            const bookings = await Booking.findById('6af0e3b6c8db416ba03b185f')
+            const bookings = await Booking.findById('6af211977c7b45903d42a1e6')
             bookings.amount = 2
             await bookings.save()
             // const purchaseData = await Purchase.findById(purchaseId)
