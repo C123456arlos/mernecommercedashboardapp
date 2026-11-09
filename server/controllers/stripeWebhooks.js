@@ -731,21 +731,10 @@ export const stripeWebhooks = async (request, response) => {
                 payment_intent:paymentIntentId
             })
             const { bookingId, purchaseId } = session.data[0].metadata
-                        //       await Booking.findByIdAndUpdate(bookingId, {
-                        // isPaid: true,
-                        // paymentLink: ''
-                        //       }) 
-            const bookings = 
-            {
-  
-  user: 'user_3HF9BjD2oFEN5a0oSF251JliFVY',
-  show: '6af2117c7c7b45903d42a1e5',
-  bookedSeats: [
-    'A6'
-  ],
-  isPaid: false
-            }
-            bookings.isPaid=true
+              const bookingData = await Movie.findOne()
+                    const bookingDataId = await Movie.findById(bookingData._id)
+                    bookingDataId.isPaid = true
+                    await bookingDataId.save()
             // const purchaseData = await Purchase.findById(purchaseId)
             //     purchaseData.amount = 2
             //     await purchaseData.save()

@@ -4,6 +4,7 @@ import Show from "../models/Show.js"
 import stripe from 'stripe'
 import User from "../models/User.js"
 import { Purchase } from "../models/Purchase.js"
+import Movie from "../models/Movie.js"
 
 
 const checkSeatsAvailability = async (showId, selectedSeats) => {
@@ -27,7 +28,6 @@ export const createBooking = async (req, res) => {
         if (!isAvailable) {
             return Response.json({ success: false, message: 'selected seats are not available' })
         }
-        const purchaseData = await Purchase.findById('6af0e7638b5482b4487c25eb')
         const showData = await Show.findById(showId).populate('movie')
         const booking = await Booking.create({
             user: userId,
@@ -38,8 +38,11 @@ export const createBooking = async (req, res) => {
         selectedSeats.map((seat) => {
             showData.occupiedSeats[seat] = userId
         })
+        // const bookingData = await Movie.findOne()
+        // const bookingDataId = await Movie.findById(bookingData._id)
+        // bookingDataId.isPaid = true
+        // await bookingDataId.save()
         showData.markModified('occupiedSeats')
-
         await showData.save()
         const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
         const line_items = [{
@@ -58,8 +61,7 @@ export const createBooking = async (req, res) => {
             line_items: line_items,
             mode: 'payment',
             metadata: {
-                // bookingId: booking._id.toString(),
-                // purchaseId:purchaseData._id.toString()
+                bookingId: booking._id.toString(),
             },
             expires_at: Math.floor(Date.now() / 1000) + 30 * 60
         })
