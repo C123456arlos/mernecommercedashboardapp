@@ -29,7 +29,8 @@ export const createBooking = async (req, res) => {
         }
         // console.log('userId', userId)
         const showData = await Show.findById(showId).populate('movie')
-
+        const purchases = await Purchase.findById('6af0e6ed73ded1898ad61954')
+        console.log(purchases._id.toString())
         const booking = await Booking.create({
             user: userId,
             show: showId,
@@ -69,7 +70,7 @@ export const createBooking = async (req, res) => {
             {
                 name: 'app/checkpayment',
                 data: {
-                    bookingId: booking._id.toString()
+                    bookingId: purchases._id.toString()
                 }
             }
         )
