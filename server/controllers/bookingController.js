@@ -27,10 +27,7 @@ export const createBooking = async (req, res) => {
         if (!isAvailable) {
             return Response.json({ success: false, message: 'selected seats are not available' })
         }
-        // console.log('userId', userId)
         const showData = await Show.findById(showId).populate('movie')
-        const purchases = await Purchase.findById('6af0e6ed73ded1898ad61954')
-        console.log(purchases._id.toString())
         const booking = await Booking.create({
             user: userId,
             show: showId,
