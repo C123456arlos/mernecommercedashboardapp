@@ -40,9 +40,7 @@ export const createBooking = async (req, res) => {
             showData.occupiedSeats[seat] = userId
         })
         showData.markModified('occupiedSeats')
-        // const purchases = await Purchase.findById('6af0e6ed73ded1898ad61954')
-        // purchases.status = 'completed'
-        // console.log(purchases)
+
         await showData.save()
         const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY)
         const line_items = [{

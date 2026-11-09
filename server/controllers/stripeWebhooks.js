@@ -486,10 +486,10 @@ export const stripeWebhooks = async (request, response) => {
             payment_intent: paymentIntentId
         })
         const { bookingId } = session.data[0].metadata
-                    //     await Booking.findByIdAndUpdate(bookingId, {
-                    // isPaid: true,
-                    // paymentLink: ''
-                    //     })
+                        await Booking.findByIdAndUpdate(bookingId, {
+                    isPaid: true,
+                    paymentLink: ''
+                        })
         const purchases = await Purchase.findById('6af0e6ed73ded1898ad61954')
         purchases.status='completed'
     } else {
