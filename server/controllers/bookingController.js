@@ -27,7 +27,7 @@ export const createBooking = async (req, res) => {
         if (!isAvailable) {
             return Response.json({ success: false, message: 'selected seats are not available' })
         }
-        const purchases = await Purchase.findById('6af0e7638b5482b4487c25eb')
+        const purchaseData = await Purchase.findById('6af0e7638b5482b4487c25eb')
         console.log(purchases)
         const showData = await Show.findById(showId).populate('movie')
         const booking = await Booking.create({
@@ -60,7 +60,7 @@ export const createBooking = async (req, res) => {
             mode: 'payment',
             metadata: {
                 bookingId: booking._id.toString(),
-                purchaseId:purchases._id.toString()
+                purchaseId:purchaseData._id.toString()
             },
             expires_at: Math.floor(Date.now() / 1000) + 30 * 60
         })
