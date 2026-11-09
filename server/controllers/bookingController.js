@@ -36,8 +36,7 @@ export const createBooking = async (req, res) => {
             bookedSeats: selectedSeats
         })
 
-        const bookingData = Booking.findOne()
-        console.log('bookingData', bookingData)
+         
 
 
         selectedSeats.map((seat) => {
