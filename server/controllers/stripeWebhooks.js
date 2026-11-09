@@ -705,16 +705,7 @@
 
 import stripe from 'stripe'
 import Booking from '../models/Bookings.js'
-
 import { Purchase } from '../models/Purchase.js'
-import User from '../models/User.js'
-
-
-
-
-
-
-
 export const stripeWebhooks = async (request, response) => {
     console.log('request stripe', request)
     const stripeInstance=new stripe(process.env.STRIPE_SECRET_KEY)
